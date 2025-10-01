@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Listagem de Motos</title>
+</head>
+<body>
+
+<section layout:fragment="content">
+
+    <div th:if="${message}" class="alert alert-success" th:text="${message}"></div>
+    <div th:if="${message_error}" class="alert alert-error" th:text="${message_error}"></div>
+
+    <div class="header-list">
+        <h1>Motos Cadastradas</h1>
+        <a th:href="@{/web/motorcycles/new}" class="btn btn-primary">Cadastrar Nova Moto</a>
+    </div>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Placa</th>
+            <th>Marca</th>
+            <th>Modelo</th>
+            <th>Dispositivo</th>
+            <th>Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="moto : ${motorcyclePage.content}">
+            <td th:text="${moto.id}">1</td>
+            <td th:text="${moto.license}">ABC-1234</td>
+            <td th:text="${moto.brand}">Honda</td>
+            <td th:text="${moto.model}">CG 160</td>
+            <td>
+                <span th:if="${moto.device != null}" th:text="${moto.device.code}">DEV001</span>
+                <span th:if="${moto.device == null}" class="text-muted">N/A</span>
+            </td>
+            <td>
+                <a th:href="@{/web/motorcycles/edit/{id}(id=${moto.id})}" class="btn btn-secondary btn-sm">Editar</a>
+                <a th:href="@{/web/motorcycles/delete/{id}(id=${moto.id})}" class="btn btn-danger btn-sm"
+                   onclick="return confirm('Tem certeza que deseja excluir esta moto?');">Excluir</a>
+            </td>
+        </tr>
+        <tr th:if="${motorcyclePage.empty}">
+            <td colspan="6" style="text-align: center;">Nenhuma moto encontrada.</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div th:if="${motorcyclePage.totalPages > 1}" class="pagination-controls">
+        <a th:if="${motorcyclePage.hasPrevious()}"
+           th:href="@{/web/motorcycles(page=${motorcyclePage.number - 1}, size=${motorcyclePage.size})}"
+           class="btn btn-secondary">
+            &laquo; Anterior
+        </a>
+
+        <span class="page-info">
+            Página <strong th:text="${motorcyclePage.number + 1}">1</strong> de <strong th:text="${motorcyclePage.totalPages}">1</strong>
+        </span>
+
+        <a th:if="${motorcyclePage.hasNext()}"
+           th:href="@{/web/motorcycles(page=${motorcyclePage.number + 1}, size=${motorcyclePage.size})}"
+           class="btn btn-secondary">
+            Próxima &raquo;
+        </a>
+    </div>
+</section>
+
+</body>
+</html>

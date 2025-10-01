@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Listagem de Funcionários</title>
+</head>
+<body>
+
+<section layout:fragment="content">
+    <div th:if="${message}" class="alert alert-success" th:text="${message}"></div>
+    <div th:if="${message_error}" class="alert alert-error" th:text="${message_error}"></div>
+
+    <div class="header-list">
+        <h1>Funcionários Cadastrados</h1>
+        <a th:href="@{/web/employees/new}" class="btn btn-primary">Cadastrar Novo Funcionário</a>
+    </div>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Cargo</th>
+            <th>Unidade</th>
+            <th>Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="employee : ${employeePage.content}">
+            <td th:text="${employee.id}">1</td>
+            <td th:text="${employee.name}">João da Silva</td>
+            <td th:text="${employee.email}">joao@email.com</td>
+            <td th:text="${employee.role}">Mecânico</td>
+            <td th:text="${employee.unit.name}">Unidade Central</td>
+            <td>
+                <a th:href="@{/web/employees/edit/{id}(id=${employee.id})}" class="btn btn-secondary btn-sm">Editar</a>
+                <a th:href="@{/web/employees/delete/{id}(id=${employee.id})}" class="btn btn-danger btn-sm"
+                   onclick="return confirm('Tem certeza que deseja excluir este funcionário?');">Excluir</a>
+            </td>
+        </tr>
+        <tr th:if="${employeePage.empty}">
+            <td colspan="6" style="text-align: center;">Nenhum funcionário encontrado.</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div th:if="${employeePage.totalPages > 1}" class="pagination-controls">
+        <a th:if="${employeePage.hasPrevious()}" th:href="@{/web/employees(page=${employeePage.number - 1})}" class="btn btn-secondary">&laquo; Anterior</a>
+        <span class="page-info">Página <strong th:text="${employeePage.number + 1}"></strong> de <strong th:text="${employeePage.totalPages}"></strong></span>
+        <a th:if="${employeePage.hasNext()}" th:href="@{/web/employees(page=${employeePage.number + 1})}" class="btn btn-secondary">Próxima &raquo;</a>
+    </div>
+</section>
+
+</body>
+</html>

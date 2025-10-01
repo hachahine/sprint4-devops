@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<header th:fragment="header" class="main-header">
+    <div class="container">
+        <a th:href="@{/}" class="logo">Mottu</a>
+        <nav>
+            <ul>
+                <li><a th:href="@{/web/motorcycles}">Motos</a></li>
+                <li><a th:href="@{/web/devices}">Dispositivos</a></li>
+                <li><a th:href="@{/web/employees}">Funcionários</a></li>
+                <li><a th:href="@{/web/yards}">Pátios</a></li>
+                <li><a th:href="@{/web/units}">Unidades</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+</body>
+</html>

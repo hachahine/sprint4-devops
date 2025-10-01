@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title th:text="${pageTitle}">Formulário de Dispositivo</title>
+</head>
+<body>
+
+<section layout:fragment="content">
+    <h1 th:text="${pageTitle}">Cadastrar / Editar Dispositivo</h1>
+
+    <form th:action="@{/web/devices/save}" th:object="${device}" method="post" class="form-container">
+        <input type="hidden" th:field="*{id}" />
+
+        <div class="form-group">
+            <label for="code">Código:</label>
+            <input type="text" id="code" th:field="*{code}" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="statusColor">Status:</label>
+            <select id="statusColor" th:field="*{statusColor}" class="form-control" required>
+                <option value="">Selecione um Status</option>
+                <option th:each="status : ${allStatusColors}"
+                        th:value="${status}"
+                        th:text="${status}">Status
+                </option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="active">Ativo:</label>
+            <select id="active" th:field="*{active}" class="form-control" required>
+                <option value="">Selecione</option>
+                <option value="true">Sim</option>
+                <option value="false">Não</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="yard">Pátio:</label>
+            <select id="yard" th:field="*{yard.id}" class="form-control" required>
+                <option value="">Selecione um Pátio</option>
+                <option th:each="yard : ${allYards}"
+                        th:value="${yard.id}"
+                        th:text="${yard.name}">Pátio
+                </option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="motorcycle">Moto Associada:</label>
+            <select id="motorcycle" th:field="*{motorcycle.id}" class="form-control">
+                <option value="">Nenhuma</option> <option th:each="moto : ${allMotorcycles}"
+                                                          th:value="${moto.id}"
+                                                          th:text="${moto.license + ' (' + moto.model + ')'}">Moto
+            </option>
+            </select>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Salvar</button>
+            <a th:href="@{/web/devices}" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</section>
+
+</body>
+</html>

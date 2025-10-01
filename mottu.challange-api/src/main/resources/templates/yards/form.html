@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title th:text="${pageTitle}">Formulário de Pátio</title>
+</head>
+<body>
+
+<section layout:fragment="content">
+    <h1 th:text="${pageTitle}">Cadastrar / Editar Pátio</h1>
+
+    <form th:action="@{/web/yards/save}" th:object="${yard}" method="post" class="form-container">
+        <input type="hidden" th:field="*{id}" />
+
+        <div class="form-group">
+            <label for="name">Nome:</label>
+            <input type="text" id="name" th:field="*{name}" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="unit">Unidade:</label>
+            <select id="unit" th:field="*{unit.id}" class="form-control" required>
+                <option value="">Selecione uma Unidade</option>
+                <option th:each="unit : ${allUnits}"
+                        th:value="${unit.id}"
+                        th:text="${unit.name}">Unidade
+                </option>
+            </select>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Salvar</button>
+            <a th:href="@{/web/yards}" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</section>
+
+</body>
+</html>

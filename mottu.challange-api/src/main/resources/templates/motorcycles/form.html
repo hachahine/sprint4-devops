@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title th:text="${pageTitle}">Formulário de Moto</title>
+</head>
+<body>
+
+<section layout:fragment="content">
+    <h1 th:text="${pageTitle}">Cadastrar / Editar Moto</h1>
+
+    <form th:action="@{/web/motorcycles/save}" th:object="${motorcycle}" method="post" class="form-container">
+
+        <input type="hidden" th:field="*{id}" />
+
+        <div class="form-group">
+            <label for="license">Placa:</label>
+            <input type="text" id="license" th:field="*{license}" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="brand">Marca:</label>
+            <input type="text" id="brand" th:field="*{brand}" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="model">Modelo:</label>
+            <input type="text" id="model" th:field="*{model}" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="chassis">Chassi:</label>
+            <input type="text" id="chassis" th:field="*{chassis}" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="engine">Motor:</label>
+            <input type="text" id="engine" th:field="*{engine}" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="device">Dispositivo Associado:</label>
+            <select id="device" th:field="*{device.id}" class="form-control">
+                <option value="">Nenhum</option>
+                <option th:each="dev : ${allDevices}"
+                        th:value="${dev.id}"
+                        th:text="${dev.code}">Device Code
+                </option>
+            </select>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Salvar</button>
+            <a th:href="@{/web/motorcycles}" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</section>
+
+</body>
+</html>

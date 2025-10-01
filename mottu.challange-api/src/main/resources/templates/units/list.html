@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>Listagem de Unidades</title>
+</head>
+<body>
+
+<section layout:fragment="content">
+    <div th:if="${message}" class="alert alert-success" th:text="${message}"></div>
+    <div th:if="${message_error}" class="alert alert-error" th:text="${message_error}"></div>
+
+    <div class="header-list">
+        <h1>Unidades Cadastradas</h1>
+        <a th:href="@{/web/units/new}" class="btn btn-primary">Cadastrar Nova Unidade</a>
+    </div>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Endereço</th>
+            <th>Bairro</th>
+            <th>Ações</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="unit : ${unitPage.content}">
+            <td th:text="${unit.id}">1</td>
+            <td th:text="${unit.name}">Unidade Central</td>
+            <td th:text="${unit.address}">Rua Principal, 123</td>
+            <td th:text="${unit.neighborhood}">Centro</td>
+            <td>
+                <a th:href="@{/web/units/edit/{id}(id=${unit.id})}" class="btn btn-secondary btn-sm">Editar</a>
+                <a th:href="@{/web/units/delete/{id}(id=${unit.id})}" class="btn btn-danger btn-sm"
+                   onclick="return confirm('Tem certeza que deseja excluir esta unidade?');">Excluir</a>
+            </td>
+        </tr>
+        <tr th:if="${unitPage.empty}">
+            <td colspan="5" style="text-align: center;">Nenhuma unidade encontrada.</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div th:if="${unitPage.totalPages > 1}" class="pagination-controls">
+        <a th:if="${unitPage.hasPrevious()}" th:href="@{/web/units(page=${unitPage.number - 1})}" class="btn btn-secondary">&laquo; Anterior</a>
+        <span class="page-info">Página <strong th:text="${unitPage.number + 1}"></strong> de <strong th:text="${unitPage.totalPages}"></strong></span>
+        <a th:if="${unitPage.hasNext()}" th:href="@{/web/units(page=${unitPage.number + 1})}" class="btn btn-secondary">Próxima &raquo;</a>
+    </div>
+</section>
+
+</body>
+</html>
