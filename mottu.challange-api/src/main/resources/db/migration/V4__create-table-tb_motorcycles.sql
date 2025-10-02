@@ -1,11 +1,9 @@
 CREATE TABLE tb_motorcycles (
-
-    id NUMBER PRIMARY KEY,
-    license VARCHAR2(50) NOT NULL,
-    chassis VARCHAR2(100),
-    engine VARCHAR2(100),
-    brand VARCHAR2(100),
-    model VARCHAR2(100),
-    id_device NUMBER UNIQUE
-
+    id SERIAL PRIMARY KEY,
+    license VARCHAR(50) NOT NULL,
+    chassis VARCHAR(100),
+    engine VARCHAR(100),
+    brand VARCHAR(100),
+    model VARCHAR(100),
+    id_device INTEGER UNIQUE
 );

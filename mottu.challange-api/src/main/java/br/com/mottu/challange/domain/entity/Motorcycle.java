@@ -18,8 +18,7 @@ import lombok.Setter;
 public class Motorcycle {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "motorcycle_seq_generator")
-    @SequenceGenerator(name = "motorcycle_seq_generator", sequenceName = "motorcycle_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String license;

@@ -1,8 +1,6 @@
 CREATE TABLE tb_units (
-
-    id NUMBER PRIMARY KEY,
-    name VARCHAR2(255) NOT NULL,
-    address VARCHAR2(255),
-    neighborhood VARCHAR2(255)
-
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    address VARCHAR(255),
+    neighborhood VARCHAR(255)
 );

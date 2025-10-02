@@ -18,8 +18,7 @@ import lombok.Setter;
 public class Unit {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "unit_seq_generator")
-    @SequenceGenerator(name = "unit_seq_generator", sequenceName = "unit_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
@@ -47,5 +46,4 @@ public class Unit {
             this.neighborhood = unitDetailsDTO.neighborhood();
         }
     }
-
 }

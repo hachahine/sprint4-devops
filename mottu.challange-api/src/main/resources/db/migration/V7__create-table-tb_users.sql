@@ -1,7 +1,5 @@
 CREATE TABLE tb_users (
-
-    id NUMBER PRIMARY KEY,
-    login VARCHAR2(255) NOT NULL UNIQUE,
-    password VARCHAR2(255) NOT NULL
-
+    id SERIAL PRIMARY KEY,
+    login VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL
 );
