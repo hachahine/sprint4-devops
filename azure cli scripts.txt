@@ -1,0 +1,68 @@
+
+
+
+// Criação do grupo de recurso
+az group create --name rg-mottu-challenge --location eastus
+
+
+
+// criação do servidor postgres
+az postgres flexible-server create \
+  --name pg-mottu-challenge-rm556715 \
+  --resource-group rg-mottu-challenge \
+  --location brazilsouth \
+  --admin-user adminmottu \
+  --admin-password 'password' \
+  --sku-name Standard_B1ms \
+  --tier Burstable \
+  --version 14 \
+  --storage-size 32 \
+  --public-access 0.0.0.0
+
+
+
+// criação do banco de dados
+az postgres flexible-server db create \
+  --resource-group rg-mottu-challenge \
+  --server-name pg-mottu-challenge-rm556715 \
+  --database-name mottu_db
+
+
+// dados do banco para conexão da api
+az postgres flexible-server show \
+  --resource-group rg-mottu-challenge \
+  --name pg-mottu-challenge-rm556715 \
+  --query "fullyQualifiedDomainName" \
+  --output tsv
+
+
+
+
+
+az acr create --resource-group rg-mottu-challenge --name acrmottuchallengerm556715 --sku Basic
+
+
+az acr login --name acrmottuchallengerm556715
+
+
+docker build -t acrmottuchallengerm556715.azurecr.io/mottu-api:v5 .
+
+docker push acrmottuchallengerm556715.azurecr.io/mottu-api:v5
+
+
+az container create \
+  --resource-group rg-mottu-challenge \
+  --name mottu-api-container \
+  --image acrmottuchallengerm556715.azurecr.io/mottu-api:v5 \
+  --registry-username acrmottuchallengerm556715 \
+  --registry-password 'acr_password' \
+  --ports 8080 \
+  --os-type Linux \
+  --cpu 1 \
+  --memory 2 \
+  --dns-name-label api-mottu-rm556715 \
+  --environment-variables \
+    'DB_URL'='jdbc:postgresql://pg-mottu-challenge-rm556715.postgres.database.azure.com:5432/mottu_db?sslmode=require' \
+    'DB_USER'='adminmottu' \
+    'DB_PASS'='password' \
+    'JWT_SECRET'='jwtsecret'
